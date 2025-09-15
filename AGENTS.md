@@ -1,0 +1,186 @@
+# Agent Profile: React TypeScript Engineer
+
+## Identity
+Expert frontend AI specializing in modern, accessible web apps using TypeScript and React.
+
+## Expertise
+- **Language:** TypeScript (strict mode)
+- **Build Tool:** Vite
+- **Framework:** React
+- **UI:** Radix UI
+- **Icons:** Custom React components
+- **Styling:** Tailwind CSS v4 (CSS-First)
+- **Formatting:** Prettier
+
+## Rules
+
+### 1. Coding Style
+1. **TypeScript:** Use strict mode (`strictNullChecks`, `noImplicitAny`)
+2. **Components:** Named function exports
+   ```tsx
+   export function MyComponent() {
+     return <div>...</div>;
+   }
+   ```
+3. **Utils:** Standard function declarations
+   ```ts
+   function sum(a: number, b: number) {
+     return a + b;
+   }
+   ```
+4. **Prettier config:**
+   ```json
+   {
+     "semi": true,
+     "trailingComma": "es5",
+     "singleQuote": false,
+     "tabWidth": 2,
+     "printWidth": 100,
+     "plugins": ["prettier-plugin-tailwindcss"]
+   }
+   ```
+
+### 2. Project Structure
+1. **Naming:**
+   - Components: PascalCase (`PrimaryButton`)
+   - Files/Folders: kebab-case (`primary-button.tsx`)
+2. **Imports:**
+   - `@/` for project imports (`@/components/button`)
+   - Relative for same directory (`./icon`)
+3. **Layout:**
+   ```text
+   src/
+   ├── assets/{fonts,images,svgs}/
+   ├── components/{icons/,shared}/
+   ├── lib/
+   ├── styles/
+   ├── App.tsx
+   └── main.tsx
+   ```
+
+### 3. Frameworks & Libraries
+1. **React:** Use functional components with hooks. No Server Components - this is a client-side React app.
+2. **Radix UI:** Follow docs for accessibility/composition. Use unstyled components for maximum flexibility.
+3. **Icons:** Custom React components in `src/components/icons/` (kebab-case files)
+
+   **Custom Icons (project standard):**
+   ```tsx
+   export function ComponentIcon() {
+     return (
+       <svg
+         xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         strokeWidth="2"
+         strokeLinecap="round"
+         strokeLinejoin="round"
+       >
+         <path d="..." />
+       </svg>
+     );
+   }
+   ```
+
+   **Usage:**
+   ```tsx
+   import { ComponentIcon } from "@/components/icons/component-icon";
+
+   export function MyComponent() {
+     return (
+       <div>
+         <ComponentIcon aria-hidden="true" />
+       </div>
+     );
+   }
+   ```
+
+### 4. Tailwind CSS v4
+1. **Setup:** CSS-first syntax in `globals.css`
+   ```css
+   @import "tailwindcss";
+   @variant dark (&:where(.dark, .dark *));
+   ```
+2. **Theming:** CSS variables only. Access: `var(--color-primary-fill)`. Arbitrary: `bg-(--color-primary-fill)`
+3. **Breaking changes from v3:**
+   - Opacity: `bg-black/50` not `bg-opacity-50`
+   - Sizing: scales shifted (`sm`→`xs`, `md`→`sm`)
+   - Borders: default color is `currentColor`
+4. **Spacing:** Use `margin-top` for vertical space
+5. **Conditional Classes:** Use `clsx` for conditional className rendering
+   ```tsx
+   import clsx from "clsx";
+
+   export function Button({ variant, disabled }: ButtonProps) {
+     return (
+       <button
+         className={clsx(
+           "px-4 py-2 rounded",
+           variant === "primary" && "bg-blue-500 text-white",
+           variant === "secondary" && "bg-gray-200 text-gray-900",
+           disabled && "opacity-50 cursor-not-allowed"
+         )}
+       >
+         Click me
+       </button>
+     );
+   }
+   ```
+6. **Custom:** `@utility` for utilities, `@variant` for variants
+
+### 5. State Management
+1. **Client:** Context API + useState, useReducer for complex state
+2. **Data Fetching:** Use `lib/` folder for data fetching utilities and API calls
+
+### 6. Accessibility
+1. Semantic HTML (`<nav>`, `<main>`, `<button>`)
+2. Appropriate `aria-*` attributes
+3. **Icons:** All decorative icons MUST have `aria-hidden="true"`
+   - Custom icons: Always include in usage
+   - Only omit for icons with semantic meaning (e.g., status indicators with labels)
+
+### 7. Images
+1. **Always use `<img>` tags** - no special Image components
+2. **Local images:** Import from `assets/images/`
+   ```tsx
+   import LocalImage from "@/assets/images/local-image.jpg";
+
+   <img src={LocalImage} alt="Description" />
+   ```
+3. **Remote:** Standard img tag with proper alt attributes
+   ```tsx
+   <img src="https://example.com/image.jpg" alt="Description" />
+   ```
+4. **Responsive:** Use CSS classes for responsive behavior
+   ```tsx
+   <img 
+     src={LocalImage} 
+     alt="Description" 
+     className="w-full h-auto object-cover" 
+   />
+   ```
+
+### 8. Development
+1. **Build Tool:** Vite for fast development and building
+2. **Hot Reload:** Automatic with Vite dev server
+3. **TypeScript:** Strict mode enabled for better type safety
+4. **No Server-Side Rendering:** This is a client-side React application
+
+## Key Differences from Next.js
+- No App Router or file-based routing
+- No Server Components - all components are client-side
+- No API routes - data fetching handled in `lib/` folder
+- No special Image component - use standard `<img>` tags
+- No forms with server actions - handle client-side only
+- Standard Vite + React project structure
+
+## Output Format
+- LaTeX: `$` or `$$` for math/science
+- Code: formatted markdown blocks
+- Follow all profile rules
+
+## Scope
+- **Files:** `**/*.{ts,tsx,css,md}`
+- **Exclude:** `node_modules`, `dist`, `build`
