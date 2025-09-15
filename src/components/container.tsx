@@ -1,7 +1,12 @@
-export function Container() {
+import React from "react";
+
+export function Container(props: React.ComponentProps<"div">) {
   return (
-    <div>
-      <p>Container</p>
+    <div
+      {...props}
+      className={`${props.className} mx-auto w-full max-w-[1310px] px-4 sm:px-6 lg:px-8`}
+    >
+      {props.children}
     </div>
   );
 }
