@@ -7,6 +7,7 @@ import { Container } from "./components/container";
 import { Card } from "./components/card";
 import { Button } from "./components/button";
 import { HeartIcon } from "./components/icons/heart-icon";
+import { Widget } from "./components/widget";
 
 export default function App() {
   return (
@@ -25,29 +26,26 @@ export default function App() {
         <Card
           title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
           src="public/photo.jpeg"
-        ></Card>
+        />
         <Card
-          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+          title="  lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
           src="public/photo.jpeg"
-        ></Card>
+        />
         <Card
           title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
           src="public/photo.jpeg"
-        ></Card>
+        />
         <Card
           title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
           src="public/photo.jpeg"
-        ></Card>
+        />
         <Button variant="secondary" icon="hasIcon">
           send wishlist
           <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
         </Button>
       </Container>
 
-      <Button variant="primary">klikni zde</Button>
-      <Button variant="secondary" className="mt-10">
-        klikni zde
-      </Button>
+      <Widget />
     </>
   );
 }
