@@ -1,53 +1,179 @@
-import { ArrowLeftIcon } from "./components/icons/arrow-left-icon";
-import { ArrowRightIcon } from "./components/icons/arrow-right-icon";
-import { CaretDownIcon } from "./components/icons/caret-down-icon";
-import { CloseIcon } from "./components/icons/close-icon";
-import { CloseSmallIcon } from "./components/icons/close-small-icon";
 import { Container } from "./components/container";
 import { Card } from "./components/card";
 import { Button } from "./components/button";
 import { HeartIcon } from "./components/icons/heart-icon";
+import { Collapsible, CollapsibleContent } from "./components/collapsible";
+import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
+import { clipPathValue } from "./components/clip-path-value";
 
 export default function App() {
   return (
     <>
-      <div>Test</div>
-      <CaretDownIcon aria-hidden="true" className="text-red-500 size-8" />
-      <ArrowLeftIcon aria-hidden="true" className="text-red-500 size-8" />
-      <ArrowRightIcon aria-hidden="true" className="text-red-500 size-8" />
-      <CloseIcon aria-hidden="true" className="text-red-500 size-8" />
-      <CloseSmallIcon aria-hidden="true" className="text-red-500 size-8" />
+      {/*Mobile menu*/}
+      <Container className="flex flex-col gap-4 sm:hidden">
+        {menu.map((item, index) => (
+          <Collapsible key={index}>
+            <CollapsibleTrigger className="bg-gray-100 py-5 px-5 font-bold text-2xl text-center w-full">
+              {item.name}
+            </CollapsibleTrigger>
+            <CollapsibleContent asChild>
+              <ul className="flex flex-col gap-5 py-6">
+                {item.subItems.map((subItem, subIndex) => (
+                  <li key={subIndex}>
+                    <button
+                      style={{ clipPath: clipPathValue }}
+                      className="px-6 py-3 font-semibold text-lg bg-red-600 text-red-50"
+                    >
+                      {subItem.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </CollapsibleContent>
+          </Collapsible>
+        ))}
+      </Container>
 
-      <Container
-        aria-hidden="true"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-5"
-      >
-        <Card
-          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        ></Card>
-        <Card
-          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        ></Card>
-        <Card
-          title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        ></Card>
-        <Card
-          title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        ></Card>
-        <Button variant="secondary" icon="hasIcon">
+      {/*Cards*/}
+      <Container aria-hidden="true" className="mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+          <Card
+            title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+            src="public/photo.jpeg"
+          />
+          <Card
+            title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+            src="public/photo.jpeg"
+          />
+          <Card
+            title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
+            src="public/photo.jpeg"
+          />
+          <Card
+            title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
+            src="public/photo.jpeg"
+          />
+        </div>
+        <Button variant="secondary" className="mt-10">
           send wishlist
           <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
         </Button>
       </Container>
-
-      <Button variant="primary">klikni zde</Button>
-      <Button variant="secondary" className="mt-10">
-        klikni zde
-      </Button>
     </>
   );
 }
+
+const menu = [
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+  {
+    name: "Lorem ipsum",
+    subItems: [
+      { name: "Submenu 1" },
+      { name: "Submenu 2" },
+      { name: "Submenu 3" },
+    ],
+  },
+];
