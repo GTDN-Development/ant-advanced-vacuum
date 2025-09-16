@@ -1,8 +1,9 @@
 const styles = {
   primary:
-    "text-white bg-black p-4 border-xs [clip-path:polygon(0%_0%,_100%_0%,_100%_90%,_90%_100%,_0%_100%)]",
+    "max-w-sm text-white bg-black p-2 border-xs [clip-path:polygon(0%_0%,_100%_0%,_100%_90%,_90%_100%,_0%_100%)]",
   secondary:
-    "text-white bg-red-600 p-4 border-xs [clip-path:polygon(0%_0%,_100%_0%,_100%_90%,_90%_100%,_0%_100%)]",
+    "max-w-sm text-white bg-red-600 p-2 border-xs [clip-path:polygon(0%_0%,_100%_0%,_100%_90%,_90%_100%,_0%_100%)]",
+  noborder: "max-w-sm text-red-600 bg-transparent text-sm ",
 };
 
 const iconStyle = {
