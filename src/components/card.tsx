@@ -7,7 +7,7 @@ export function Card(
   return (
     <div
       {...props}
-      className="bg-gray-100 w-full flex flex-col p-6"
+      className="bg-gray-100 w-full flex flex-col gap-4 p-6"
       style={{ clipPath: clipPathValue, ...props.style }}
     >
       {props.src && (
