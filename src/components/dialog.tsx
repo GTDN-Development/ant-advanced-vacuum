@@ -49,29 +49,36 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
   src?: string;
+  title?: string;
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
-        className={`h-screen inset-y-0 right-0 flex flex-col gap-4 bg-white data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed z-50 w-full p-6 shadow-lg duration-400 max-w-lg  ${className ?? ""}`}
+        className={`h-screen inset-y-0 right-0 flex flex-col gap-4 bg-white data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed z-50 w-full px-6 pt-10 shadow-lg duration-400 max-w-lg  ${className ?? ""}`}
         {...props}
       >
         {props.src && (
-          <div className="relative aspect-[16/9] overflow-clip">
-            <img
-              src={props.src}
-              className=" absolute w-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
+          <div>
+            <DialogTitle className="absolute top-4 left-6">
+              {props.title}
+            </DialogTitle>
+            <div className="relative aspect-[16/9] overflow-clip">
+              <img
+                src={props.src}
+                className=" absolute w-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
+            </div>
           </div>
         )}
 
         {children}
+
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-6 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <CloseIcon />
             <span className="sr-only">Close</span>
