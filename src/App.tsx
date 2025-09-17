@@ -1,8 +1,5 @@
 import { Container } from "./components/container";
 import { Card } from "./components/card";
-import { Button } from "./components/button";
-import { HeartIcon } from "./components/icons/heart-icon";
-import { Widget } from "./components/widget";
 import { Collapsible, CollapsibleContent } from "./components/collapsible";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 import { clipPathValue } from "./components/clip-path-value";
@@ -12,7 +9,6 @@ import { getAllTechnologies } from "./lib/technologies";
 import type { Technology } from "./lib/technologies";
 
 import { useEffect, useState } from "react";
-import { Widget } from "./components/widget";
 
 export default function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -74,28 +70,6 @@ export default function App() {
           ))
         )}
       </Container>
-
-      <Container
-        aria-hidden="true"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-5"
-      >
-        <Card
-          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="  lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Button variant="secondary" icon="hasIcon">
       {/*Cards*/}
       <Container aria-hidden="true" className="mt-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
@@ -109,38 +83,7 @@ export default function App() {
             </>
           )}
         </div>
-        <Button variant="secondary" className="mt-10">
-      <Container
-        aria-hidden="true"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-5"
-      >
-        <Card
-          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="  lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Card
-          title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
-          src="public/photo.jpeg"
-        />
-        <Button variant="secondary" icon="hasIcon">
-          send wishlist
-          <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
-        </Button>
       </Container>
-
-      <Widget />
-    </>
     </div>
-
-      <Widget />
-    </>
   );
 }
