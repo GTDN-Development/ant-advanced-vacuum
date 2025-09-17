@@ -1,5 +1,7 @@
 import { Container } from "./components/container";
 import { Card } from "./components/card";
+import { Button } from "./components/button";
+import { HeartIcon } from "./components/icons/heart-icon";
 import { Collapsible, CollapsibleContent } from "./components/collapsible";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 import { clipPathValue } from "./components/clip-path-value";
@@ -70,6 +72,7 @@ export default function App() {
           ))
         )}
       </Container>
+
       {/*Cards*/}
       <Container aria-hidden="true" className="mt-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
@@ -83,6 +86,11 @@ export default function App() {
             </>
           )}
         </div>
+
+        <Button variant="secondary" className="mt-10">
+          send wishlist
+          <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
+        </Button>
       </Container>
     </div>
   );
