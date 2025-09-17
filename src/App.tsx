@@ -11,6 +11,7 @@ import { getAllTechnologies } from "./lib/technologies";
 import type { Technology } from "./lib/technologies";
 
 import { useEffect, useState } from "react";
+import { Widget } from "./components/widget/widget";
 
 export default function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -32,6 +33,9 @@ export default function App() {
 
   return (
     <div className="py-10">
+      <Container className="flex items-center justify-center">
+        <Widget />
+      </Container>
       {/* Mobile menu */}
       <Container className="flex flex-col gap-4 sm:hidden">
         {loadingTechnologies ? (
