@@ -98,6 +98,7 @@ export default function App() {
             </>
           )}
         </div>
+
         <Button variant="secondary" className="mt-10">
           send wishlist
           <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
