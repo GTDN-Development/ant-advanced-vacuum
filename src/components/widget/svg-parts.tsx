@@ -3,6 +3,11 @@ import React from "react";
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
 
+const commonButtonLikeProps: React.SVGProps<SVGSVGElement> = {
+  role: "button",
+  tabIndex: 0,
+};
+
 const commonClassName = "widget-shape";
 
 export function BottomLeft(props: SvgProps) {
@@ -13,6 +18,7 @@ export function BottomLeft(props: SvgProps) {
       viewBox="0 0 305 200"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -30,6 +36,7 @@ export function BottomRight(props: SvgProps) {
       viewBox="0 0 305 200"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -47,6 +54,7 @@ export function Center(props: SvgProps) {
       viewBox="0 0 214 214"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -63,6 +71,7 @@ export function LeftBottom(props: SvgProps) {
       viewBox="0 0 200 305"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -80,6 +89,7 @@ export function LeftTop(props: SvgProps) {
       viewBox="0 0 200 305"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -97,6 +107,7 @@ export function RightBottom(props: SvgProps) {
       viewBox="0 0 200 305"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -114,6 +125,7 @@ export function RightTop(props: SvgProps) {
       viewBox="0 0 200 305"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -134,6 +146,7 @@ export function TopLeft(props: SvgProps) {
       viewBox="0 0 305 200"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
@@ -154,6 +167,7 @@ export function TopRight(props: SvgProps) {
       viewBox="0 0 305 200"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...commonButtonLikeProps}
       {...props}
       className={clsx(commonClassName, props.className)}
     >
