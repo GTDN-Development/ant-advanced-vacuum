@@ -33,47 +33,55 @@ export default function App() {
 
   return (
     <div className="py-10">
-      <Container className="flex items-center justify-center">
+      <Container className="hidden lg:flex items-center justify-center">
         <Widget />
       </Container>
+
       {/* Mobile menu */}
-      <Container className="flex flex-col gap-4 sm:hidden">
+      <Container className="flex flex-col gap-4 mt-16">
         {loadingTechnologies ? (
           <div>Loading menu...</div>
         ) : (
-          Object.entries(
-            technologies.reduce(
-              (acc, tech) => {
-                const section = tech.technologySection;
-                if (!acc[section]) {
-                  acc[section] = [];
-                }
-                acc[section].push(tech);
-                return acc;
-              },
-              {} as Record<string, Technology[]>,
-            ),
-          ).map(([sectionName, techs], index) => (
-            <Collapsible key={index}>
-              <CollapsibleTrigger className="bg-gray-100 py-5 px-5 font-bold text-2xl text-center w-full">
-                {sectionName}
-              </CollapsibleTrigger>
-              <CollapsibleContent asChild>
-                <ul className="flex flex-col gap-5 py-6">
-                  {techs.map((tech, subIndex) => (
-                    <li key={subIndex}>
-                      <button
-                        style={{ clipPath: clipPathValue }}
-                        className="px-6 py-3 font-semibold text-lg bg-red-600 text-red-50"
-                      >
-                        {tech.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </CollapsibleContent>
-            </Collapsible>
-          ))
+          technologySections.map((section, index) => {
+            const filteredTechnologies = technologies.filter((tech) => {
+              if (Array.isArray(section.technologySection)) {
+                return section.technologySection.includes(
+                  tech.technologySection,
+                );
+              }
+              return tech.technologySection === section.technologySection;
+            });
+
+            return (
+              <Collapsible key={index}>
+                <CollapsibleTrigger className="bg-gray-100 py-5 px-5 font-bold text-2xl text-center w-full">
+                  {section.name}
+                </CollapsibleTrigger>
+                <CollapsibleContent asChild>
+                  <div className="py-6">
+                    {filteredTechnologies.length > 0 ? (
+                      <ul className="flex flex-col gap-5">
+                        {filteredTechnologies.map((tech, subIndex) => (
+                          <li key={subIndex}>
+                            <button
+                              style={{ clipPath: clipPathValue }}
+                              className="px-6 py-3 font-semibold text-lg bg-red-600 text-red-50"
+                            >
+                              {tech.name}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="px-5 py-4 text-gray-500 text-center">
+                        No technologies available for this section
+                      </div>
+                    )}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            );
+          })
         )}
       </Container>
 
@@ -98,3 +106,27 @@ export default function App() {
     </div>
   );
 }
+
+type TechnologySection = {
+  name: string;
+  technologySection: string | string[];
+};
+
+const technologySections: TechnologySection[] = [
+  {
+    name: "Vacuum Chamber",
+    technologySection: [
+      "vacuumChamber",
+      "vacuumEnviroment",
+      "vacuumEnvironment",
+    ],
+  },
+  { name: "Adsorption", technologySection: "adsorption" },
+  { name: "Vaporisation", technologySection: "vaporisation" },
+  { name: "Virtual leaks", technologySection: "virtualLeaks" },
+  { name: "Real leaks", technologySection: "realLeaks" },
+  { name: "BackFlow vacuum pump", technologySection: "backFlowVacuumPump" },
+  { name: "Permeation", technologySection: "permeation" },
+  { name: "Diffusion", technologySection: "diffusion" },
+  { name: "Desorption", technologySection: ["desorption", "dessorption"] },
+];
