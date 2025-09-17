@@ -1,0 +1,2 @@
+export const clipPathValue =
+  "polygon(0% 0%,100% 0%,100% calc(100% - 20px),calc(100% - 20px) 100%,0% 100%)";
