@@ -12,6 +12,7 @@ import { getAllTechnologies } from "./lib/technologies";
 import type { Technology } from "./lib/technologies";
 
 import { useEffect, useState } from "react";
+import { Widget } from "./components/widget";
 
 export default function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -109,6 +110,27 @@ export default function App() {
           )}
         </div>
         <Button variant="secondary" className="mt-10">
+      <Container
+        aria-hidden="true"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-5"
+      >
+        <Card
+          title="lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+          src="public/photo.jpeg"
+        />
+        <Card
+          title="  lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+          src="public/photo.jpeg"
+        />
+        <Card
+          title="lorem ipsum lorem  lorem ipsum lorem ipsum lorem ipsum"
+          src="public/photo.jpeg"
+        />
+        <Card
+          title="l ipsum lorem ipsum lorem ipsum lorem ipsum"
+          src="public/photo.jpeg"
+        />
+        <Button variant="secondary" icon="hasIcon">
           send wishlist
           <HeartIcon aria-hidden="true" className="text-red-500 size-8" />
         </Button>
@@ -117,5 +139,8 @@ export default function App() {
       <Widget />
     </>
     </div>
+
+      <Widget />
+    </>
   );
 }
