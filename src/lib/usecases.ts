@@ -15,9 +15,7 @@ export async function getAllUseCases(): Promise<UseCasesResponse> {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch use cases: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch use cases: ${response.status} ${response.statusText}`);
     }
 
     const result: UseCasesResponse = await response.json();

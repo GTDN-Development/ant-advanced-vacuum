@@ -1,9 +1,11 @@
 # Agent Profile: React TypeScript Engineer - Advanced Vacuum Project
 
 ## Identity
+
 Expert frontend AI specializing in modern, accessible web apps using TypeScript and React. Specialized in interactive vacuum technology visualization with SVG diagrams, modal interfaces, and wishlist management.
 
 ## Expertise
+
 - **Language:** TypeScript (strict mode)
 - **Build Tool:** Vite
 - **Framework:** React
@@ -15,6 +17,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
 ## Rules
 
 ### 1. Coding Style
+
 1. **TypeScript:** Use strict mode (`strictNullChecks`, `noImplicitAny`)
 2. **Components:** Named function exports
    ```tsx
@@ -41,6 +44,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    ```
 
 ### 2. Project Structure
+
 1. **Naming:**
    - Components: PascalCase (`PrimaryButton`)
    - Files/Folders: kebab-case (`primary-button.tsx`)
@@ -59,11 +63,13 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    ```
 
 ### 3. Frameworks & Libraries
+
 1. **React:** Use functional components with hooks. No Server Components - this is a client-side React app.
 2. **Radix UI:** Follow docs for accessibility/composition. Use unstyled components for maximum flexibility. Some components (dialog, tabs, collapsible) are based on shadcn/ui patterns with custom modifications.
 3. **Icons:** Custom React components in `src/components/icons/` (kebab-case files)
 
    **Custom Icons (project standard):**
+
    ```tsx
    export function ComponentIcon() {
      return (
@@ -85,6 +91,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    ```
 
    **Usage:**
+
    ```tsx
    import { ComponentIcon } from "@/components/icons/component-icon";
 
@@ -98,6 +105,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    ```
 
 ### 4. Tailwind CSS v4
+
 1. **Setup:** CSS-first syntax in `globals.css`
    ```css
    @import "tailwindcss";
@@ -110,6 +118,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    - Borders: default color is `currentColor`
 4. **Spacing:** Use `margin-top` for vertical space
 5. **Conditional Classes:** Use `clsx` for conditional className rendering
+
    ```tsx
    import clsx from "clsx";
 
@@ -117,10 +126,10 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
      return (
        <button
          className={clsx(
-           "px-4 py-2 rounded",
+           "rounded px-4 py-2",
            variant === "primary" && "bg-blue-500 text-white",
            variant === "secondary" && "bg-gray-200 text-gray-900",
-           disabled && "opacity-50 cursor-not-allowed"
+           disabled && "cursor-not-allowed opacity-50"
          )}
        >
          Click me
@@ -128,13 +137,16 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
      );
    }
    ```
+
 6. **Custom:** `@utility` for utilities, `@variant` for variants
 
 ### 5. State Management
+
 1. **Client:** Context API + useState, useReducer for complex state
 2. **Data Fetching:** Use `lib/` folder for data fetching utilities and API calls
 
 ### 6. Accessibility
+
 1. Semantic HTML (`<nav>`, `<main>`, `<button>`)
 2. Appropriate `aria-*` attributes
 3. **Icons:** All decorative icons MUST have `aria-hidden="true"`
@@ -142,33 +154,34 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
    - Only omit for icons with semantic meaning (e.g., status indicators with labels)
 
 ### 7. Images
+
 1. **Always use `<img>` tags** - no special Image components
 2. **Local images:** Import from `assets/images/`
+
    ```tsx
    import LocalImage from "@/assets/images/local-image.jpg";
 
-   <img src={LocalImage} alt="Description" />
+   <img src={LocalImage} alt="Description" />;
    ```
+
 3. **Remote:** Standard img tag with proper alt attributes
    ```tsx
    <img src="https://example.com/image.jpg" alt="Description" />
    ```
 4. **Responsive:** Use CSS classes for responsive behavior
    ```tsx
-   <img 
-     src={LocalImage} 
-     alt="Description" 
-     className="w-full h-auto object-cover" 
-   />
+   <img src={LocalImage} alt="Description" className="h-auto w-full object-cover" />
    ```
 
 ### 8. Development
+
 1. **Build Tool:** Vite for fast development and building
 2. **Hot Reload:** Automatic with Vite dev server
 3. **TypeScript:** Strict mode enabled for better type safety
 4. **No Server-Side Rendering:** This is a client-side React application
 
 ## Key Differences from Next.js
+
 - No App Router or file-based routing
 - No Server Components - all components are client-side
 - No API routes - data fetching handled in `lib/` folder
@@ -177,6 +190,7 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
 - Standard Vite + React project structure
 
 ## Output Format
+
 - LaTeX: `$` or `$$` for math/science
 - Code: formatted markdown blocks
 - Follow all profile rules
@@ -184,9 +198,11 @@ Expert frontend AI specializing in modern, accessible web apps using TypeScript 
 ## Project-Specific: Advanced Vacuum Technology
 
 ### Domain Context
+
 Interactive web application for Streicher's Advanced Vacuum technology visualization. Users explore vacuum technologies through an interactive SVG diagram and manage a wishlist of selected technologies.
 
 ### Core Terminology
+
 - **Technology:** Vacuum technology provided by Streicher (e.g., vaporisation)
 - **UseCase:** Application example using one or more technologies
 - **Tag:** Unique webalized identifier for each technology
@@ -194,8 +210,9 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 - **Diagram:** Interactive SVG-based technology visualization
 
 ### Technology Sections (Predefined Slugs)
+
 - Desorption (`desorption`)
-- Adsorption (`adsorption`) 
+- Adsorption (`adsorption`)
 - Diffusion (`diffusion`)
 - Permeation (`permeation`)
 - BackFlow vacuum pump (`backFlowVacuumPump`)
@@ -205,6 +222,7 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 - Vacuum chamber (`vacuumChamber`)
 
 ### Diagram Behavior - Desktop
+
 1. **Hover:** Section highlights with animation indicating click action
 2. **Click Section:** Opens arrows/lines to technologies, shows individual technologies
 3. **Click Technology:** Opens modal with basic info, image, and 3 buttons:
@@ -216,6 +234,7 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 6. **Selected Technology Detail:** "Add to wish list" button changes to "Remove from wish list"
 
 ### Diagram Behavior - Mobile
+
 1. **No SVG Diagram:** Replace with technology section tiles
 2. **Click Tile:** Show technologies for that section
 3. **Technology Modal:** Same content as desktop version
@@ -224,6 +243,7 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 6. **Selected State:** Technologies remain highlighted across all sections
 
 ### UseCase System
+
 1. **Display:** Dynamic list below diagram, sorted by API order
 2. **Filtering:** Show UseCases with at least one selected technology
 3. **Sorting:** By overlapping technology count, then default order
@@ -234,25 +254,29 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 5. **Anchors:** Each UseCase has linkable anchor
 
 ### Technology Detail Pages
+
 1. **URL:** `/technology/{slug}` - shareable
 2. **Content:** Static Elementor-created pages
 3. **Dynamic Section:** Filtered UseCase list for current technology
-4. **Buttons:** 
+4. **Buttons:**
    - Add/Remove from wish list
    - Back to home page
 5. **Button Placement:** Fixed position or inline (per client preference)
 
 ### WishList Submission
+
 1. **Trigger Buttons:** Multiple "Send wish list" buttons throughout app
 2. **Form:** Same as scubechamber.com contact form
 3. **Heart Button:** Links to page anchor only (not functional wishlist)
 4. **Submission:** Limited to specified locations for efficiency
 
 ### Data Structure Requirements
+
 - **Technology:** id, tag, slug, name, description, image, section
 - **UseCase:** id, title, description, images[], htmlContent, technologies[], order
 - **Form Data:** Contact information + selected technology tags
 
 ## Scope
+
 - **Files:** `**/*.{ts,tsx,css,md}`
 - **Exclude:** `node_modules`, `dist`, `build`

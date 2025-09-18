@@ -130,10 +130,7 @@ export function RightTop(props: SvgProps) {
       className={clsx(commonClassName, props.className)}
     >
       {props.children}
-      <path
-        d="M0 200.31V305H200V0.310059L0 200.31Z"
-        fill="var(--shape-color)"
-      />
+      <path d="M0 200.31V305H200V0.310059L0 200.31Z" fill="var(--shape-color)" />
     </svg>
   );
 }
@@ -151,10 +148,7 @@ export function TopLeft(props: SvgProps) {
       className={clsx(commonClassName, props.className)}
     >
       {props.children}
-      <path
-        d="M200.31 200H305V0H0.310059L200.31 200Z"
-        fill="var(--shape-color)"
-      />
+      <path d="M200.31 200H305V0H0.310059L200.31 200Z" fill="var(--shape-color)" />
     </svg>
   );
 }
