@@ -30,3 +30,25 @@ export function Button({
     </button>
   );
 }
+
+export function ButtonLink({
+  variant = "primary",
+  children,
+  className = "",
+  ...props
+}: React.ComponentProps<"a"> & {
+  variant?: ButtonVariant;
+}) {
+  return (
+    <a
+      {...props}
+      className={clsx("flex items-center justify-center gap-2", styles[variant], className)}
+      style={{
+        clipPath: clipPathValue,
+        ...props.style,
+      }}
+    >
+      {children}
+    </a>
+  );
+}

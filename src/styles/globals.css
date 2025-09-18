@@ -1,12 +1,13 @@
 @import "tailwindcss";
+@import "./prose.css";
 @import "tw-animate-css";
 
 @layer components {
-    .widget-shape {
-        --shape-color: var(--color-gray-100);
-    }
+  .widget-shape {
+    --shape-color: var(--color-gray-100);
+  }
 
-    .widget-shape:hover {
-        --shape-color: var(--color-red-500);
-    }
+  .widget-shape:hover {
+    --shape-color: var(--color-red-500);
+  }
 }

@@ -9,15 +9,18 @@ import type { UseCase } from "./lib/usecases";
 import { getAllUseCases } from "./lib/usecases";
 import { getAllTechnologies } from "./lib/technologies";
 import type { Technology } from "./lib/technologies";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Widget } from "./components/widget/widget";
 import GetInTouch from "./components/get-in-touch-section";
 import { Heading, RedBadgeIcon } from "./components/ui/heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Dialog, DialogContent } from "./components/ui/dialog";
+import { WishlistProvider } from "./context/wishlist-context";
+import { useWishlist } from "./hooks/use-wishlist";
+import clsx from "clsx";
+import { Badge } from "./components/ui/badge";
 
-export default function App() {
+function AppContent() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [loadingTechnologies, setLoadingTechnologies] = useState<boolean>(true);
   const [useCases, setUseCases] = useState<UseCase[]>([]);
@@ -28,6 +31,9 @@ export default function App() {
 
   const [isTechnologyDialogOpen, setIsTechnologyDialogOpen] = useState<boolean>(false);
   const [selectedTechnology, setSelectedTechnology] = useState<Technology | null>(null);
+
+  const { wishlist, addToWishlist, removeFromWishlist, isInWishlist, wishlistCount } =
+    useWishlist();
 
   useEffect(() => {
     getAllTechnologies()
@@ -41,9 +47,36 @@ export default function App() {
       .finally(() => setLoadingUseCases(false));
   }, []);
 
+  // Filter and sort use cases for wishlist tab
+  const wishlistUseCases = useMemo(() => {
+    if (wishlist.length === 0) return [];
+
+    return useCases
+      .map((useCase) => {
+        const matchingTechCount = useCase.technologies.filter((techSlug) =>
+          wishlist.some((tech) => tech.slug === techSlug)
+        ).length;
+        return { useCase, matchingTechCount };
+      })
+      .filter(({ matchingTechCount }) => matchingTechCount > 0)
+      .sort((a, b) => b.matchingTechCount - a.matchingTechCount)
+      .map(({ useCase }) => useCase);
+  }, [useCases, wishlist]);
+
   return (
     <>
       <div className="space-y-10 py-10">
+        <Container className="text-center">
+          <div className="flex items-start justify-center gap-4">
+            <RedBadgeIcon />
+            <Heading className="text-3xl sm:text-5xl">Technologies and Use cases</Heading>
+          </div>
+          <p className="mx-auto mt-10 max-w-xl">
+            Choose one or more technologies, add them to your wishlist and explore many use cases
+            below how Advanced Vacuum can help.
+          </p>
+        </Container>
+
         <Container className="hidden items-center justify-center lg:flex">
           <Widget />
         </Container>
@@ -74,7 +107,12 @@ export default function App() {
                             <li key={subIndex}>
                               <button
                                 style={{ clipPath: clipPathValue }}
-                                className="bg-red-600 px-6 py-3 text-lg font-semibold text-red-50"
+                                className={clsx(
+                                  "px-6 py-3 text-lg font-semibold",
+                                  isInWishlist(tech.slug)
+                                    ? "bg-red-600 text-white"
+                                    : "bg-gray-100 text-gray-900"
+                                )}
                                 onClick={() => {
                                   setSelectedTechnology(tech);
                                   setIsTechnologyDialogOpen(true);
@@ -110,13 +148,54 @@ export default function App() {
 
           <Tabs defaultValue="wishlist">
             <TabsList>
-              <TabsTrigger value="wishlist">Matching your wishlist technologies</TabsTrigger>
+              <TabsTrigger value="wishlist">
+                Matching your wishlist technologies ({wishlistCount})
+              </TabsTrigger>
               <TabsTrigger value="all">Show all use cases</TabsTrigger>
             </TabsList>
             <TabsContent value="wishlist">
-              <div className="flex items-center justify-center">
-                No useCases available for this section
-              </div>
+              {wishlistCount === 0 ? (
+                <div className="flex items-center justify-center py-8 text-gray-500">
+                  No technologies in wishlist yet
+                </div>
+              ) : wishlistUseCases.length === 0 ? (
+                <div className="flex items-center justify-center py-8 text-gray-500">
+                  No use cases match your wishlist technologies
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <p className="text-center">Use cases matching your wishlist technologies:</p>
+                    <div className="flex flex-wrap items-center justify-center gap-1.5">
+                      {/* Render badges for wishlist technologies */}
+                      {wishlist.map((techItem, index) => (
+                        <Badge
+                          key={index}
+                          onCloseButtonClick={() => removeFromWishlist(techItem.slug)}
+                        >
+                          {techItem.name}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {wishlistUseCases.map((item, index) => (
+                      <Card key={index}>
+                        <CardImage src={item.images[0]} alt={item.name} />
+                        <Heading as="h3">{item.name}</Heading>
+                        <CardButton
+                          onClick={() => {
+                            setSelectedUseCase(item);
+                            setIsUseCaseDialogOpen(true);
+                          }}
+                        >
+                          Learn more
+                        </CardButton>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
             </TabsContent>
             <TabsContent value="all">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -149,7 +228,10 @@ export default function App() {
         <Container className="flex items-center justify-start sm:justify-center">
           <Button variant="secondary" className="mt-10">
             send wishlist
-            <HeartIcon aria-hidden="true" className="size-8 text-red-500" />
+            <span className="flex items-center gap-0.5">
+              <span className="block">{wishlist.length}</span>
+              <HeartIcon aria-hidden="true" className="size-5 text-white" />
+            </span>
           </Button>
         </Container>
       </div>
@@ -181,8 +263,24 @@ export default function App() {
               />
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button variant="primary">Detail</Button>
-                <Button variant="secondary">Close and continue</Button>
-                <Button variant="primary">Add to wish list and continue</Button>
+                <Button variant="secondary" onClick={() => setIsTechnologyDialogOpen(false)}>
+                  Close and continue
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    if (isInWishlist(selectedTechnology.slug)) {
+                      removeFromWishlist(selectedTechnology.slug);
+                    } else {
+                      addToWishlist(selectedTechnology);
+                    }
+                    setIsTechnologyDialogOpen(false);
+                  }}
+                >
+                  {isInWishlist(selectedTechnology.slug)
+                    ? "Remove from wish list"
+                    : "Add to wish list and continue"}
+                </Button>
               </div>
             </div>
           ) : (
@@ -191,6 +289,14 @@ export default function App() {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <WishlistProvider>
+      <AppContent />
+    </WishlistProvider>
   );
 }
 
