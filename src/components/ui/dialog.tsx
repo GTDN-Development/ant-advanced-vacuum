@@ -1,33 +1,22 @@
 "use client";
 
-
-
-
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { CloseIcon } from "./icons/close-icon";
+import { CloseIcon } from "../icons/close-icon";
 
-function Dialog({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
-function DialogTrigger({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+function DialogTrigger({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function DialogPortal({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
-function DialogClose({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
@@ -59,45 +48,27 @@ function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
-        className={`h-screen inset-y-0 right-0 flex flex-col gap-4 bg-white data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed z-50 w-full px-6 pt-10 shadow-lg duration-400 max-w-lg  ${className ?? ""}`}
+        className={`data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed inset-y-0 right-0 z-50 flex h-screen w-full max-w-lg flex-col gap-4 bg-white px-6 pt-10 shadow-lg duration-400 ${className ?? ""}`}
         {...props}
       >
         {props.src && (
           <div>
-            <DialogTitle className="absolute top-4 left-6">
-              {props.title}
-            </DialogTitle>
+            <DialogTitle className="absolute top-4 left-6">{props.title}</DialogTitle>
             <div className="relative aspect-[16/9] overflow-clip">
               <img
                 src={props.src}
-                className=" absolute w-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 object-cover"
               />
             </div>
-        className={`h-screen inset-y-0 right-0 flex flex-col gap-4 bg-white data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed z-50 w-full p-6 shadow-lg duration-400 max-w-lg  ${className ?? ""}`}
-        {...props}
-      >
-        {props.src && (
-          <div className="relative aspect-[16/9] overflow-clip">
-            <img
-              src={props.src}
-              className=" absolute w-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
           </div>
         )}
 
         {children}
-<<<<<<< HEAD
 
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-6 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-=======
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            data-slot="dialog-close"
-            className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
->>>>>>> 3109fb3 (rebase 2)
           >
             <CloseIcon />
             <span className="sr-only">Close</span>
@@ -118,10 +89,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"

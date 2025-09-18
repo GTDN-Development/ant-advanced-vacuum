@@ -1,4 +1,4 @@
-import { clipPathValue } from "./clip-path-value";
+import { clipPathValue } from "../clip-path-value";
 import clsx from "clsx";
 
 const styles = {
@@ -20,11 +20,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={clsx(
-        "flex items-center gap-2 justify-center",
-        styles[variant],
-        className,
-      )}
+      className={clsx("flex items-center justify-center gap-2", styles[variant], className)}
       style={{
         clipPath: clipPathValue,
         ...props.style,
