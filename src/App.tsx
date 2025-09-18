@@ -1,6 +1,6 @@
 import { Container } from "./components/ui/container";
 import { Card, CardButton, CardImage } from "./components/ui/card";
-import { Button } from "./components/ui/button";
+import { Button, ButtonLink } from "./components/ui/button";
 import { HeartIcon } from "./components/icons/heart-icon";
 import { Collapsible, CollapsibleContent } from "./components/ui/collapsible";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
@@ -17,8 +17,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Dialog, DialogContent } from "./components/ui/dialog";
 import { WishlistProvider } from "./context/wishlist-context";
 import { useWishlist } from "./hooks/use-wishlist";
-import clsx from "clsx";
 import { Badge } from "./components/ui/badge";
+import { TechButton } from "./components/ui/tech-button";
 
 function AppContent() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -105,21 +105,16 @@ function AppContent() {
                         <ul className="flex flex-col gap-5">
                           {filteredTechnologies.map((tech, subIndex) => (
                             <li key={subIndex}>
-                              <button
+                              <TechButton
                                 style={{ clipPath: clipPathValue }}
-                                className={clsx(
-                                  "px-6 py-3 text-lg font-semibold",
-                                  isInWishlist(tech.slug)
-                                    ? "bg-red-600 text-white"
-                                    : "bg-gray-100 text-gray-900"
-                                )}
+                                isSelected={isInWishlist(tech.slug)}
                                 onClick={() => {
                                   setSelectedTechnology(tech);
                                   setIsTechnologyDialogOpen(true);
                                 }}
                               >
                                 {tech.name}
-                              </button>
+                              </TechButton>
                             </li>
                           ))}
                         </ul>
@@ -226,13 +221,13 @@ function AppContent() {
 
         {/*Cards*/}
         <Container className="flex items-center justify-start sm:justify-center">
-          <Button variant="secondary" className="mt-10">
+          <ButtonLink href="#contact-form" className="mt-10">
             send wishlist
             <span className="flex items-center gap-0.5">
               <span className="block">{wishlist.length}</span>
               <HeartIcon aria-hidden="true" className="size-5 text-white" />
             </span>
-          </Button>
+          </ButtonLink>
         </Container>
       </div>
 
@@ -240,11 +235,33 @@ function AppContent() {
         <DialogContent>
           {selectedUseCase ? (
             <div>
-              <h2 className="mb-4 text-2xl font-bold">{selectedUseCase.name}</h2>
+              {selectedUseCase.images.map((image, index) => (
+                <img key={index} src={image} alt={selectedUseCase.name} className="mb-4" />
+              ))}
+              <Heading as="h4" className="mt-6 text-xl font-bold">
+                {selectedUseCase.name}
+              </Heading>
               <div
-                className="prose prose-sm max-w-none"
+                className="prose prose-sm mt-4 max-w-none"
                 dangerouslySetInnerHTML={{ __html: selectedUseCase.modalContent }}
               />
+
+              {selectedUseCase.technologies.length !== 0 && (
+                <div className="mt-6">
+                  <Heading as="h5" className="text-sm">
+                    Used technology:
+                  </Heading>
+                  <div className="mt-3 flex flex-wrap gap-1">
+                    {selectedUseCase.technologies.map((technology, index) => (
+                      <Badge key={index} isSmall>
+                        {technology}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <Button className="mt-8">Contact us</Button>
             </div>
           ) : (
             <div>No use case selected</div>
@@ -256,16 +273,16 @@ function AppContent() {
         <DialogContent>
           {selectedTechnology ? (
             <div>
-              <h2 className="mb-4 text-2xl font-bold">{selectedTechnology.name}</h2>
+              <Heading as="h4" className="mt-6 text-xl font-bold">
+                {selectedTechnology.name}
+              </Heading>
               <div
                 className="prose prose-sm max-w-none"
                 dangerouslySetInnerHTML={{ __html: selectedTechnology.modalContent }}
               />
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button variant="primary">Detail</Button>
-                <Button variant="secondary" onClick={() => setIsTechnologyDialogOpen(false)}>
-                  Close and continue
-                </Button>
+                <Button onClick={() => setIsTechnologyDialogOpen(false)}>Close and continue</Button>
                 <Button
                   variant="primary"
                   onClick={() => {

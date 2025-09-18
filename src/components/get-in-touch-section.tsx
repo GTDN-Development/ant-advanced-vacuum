@@ -29,7 +29,7 @@ export default function GetInTouch(props: React.ComponentProps<"div">) {
             specs.
           </p>
 
-          <Button variant="secondary" className="mt-6 flex items-center gap-2 px-6 py-4">
+          <Button className="mt-6 flex items-center gap-2 px-6 py-4">
             Contact form
             <ArrowRightIcon className="h-4 w-4" />
           </Button>

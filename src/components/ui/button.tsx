@@ -2,12 +2,25 @@ import { clipPathValue } from "../clip-path-value";
 import clsx from "clsx";
 
 const styles = {
-  primary: "text-white bg-black p-2 border-xs",
-  secondary: "text-white bg-red-600 p-2 border-xs",
-  noborder: "text-red-600 bg-transparent text-sm ",
+  primary: "bg-red-600 text-white",
+  secondary: "bg-black text-white",
 };
 
 export type ButtonVariant = keyof typeof styles;
+
+function mergeButtonClasses({
+  variant = "primary",
+  className,
+}: {
+  className?: string;
+  variant?: ButtonVariant;
+}) {
+  return clsx(
+    "border-xs flex items-center justify-center gap-2 py-2.5 pr-6.5 pl-6",
+    styles[variant],
+    className
+  );
+}
 
 export function Button({
   variant = "primary",
@@ -20,7 +33,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={clsx("flex items-center justify-center gap-2", styles[variant], className)}
+      className={mergeButtonClasses({ variant, className })}
       style={{
         clipPath: clipPathValue,
         ...props.style,
@@ -42,7 +55,7 @@ export function ButtonLink({
   return (
     <a
       {...props}
-      className={clsx("flex items-center justify-center gap-2", styles[variant], className)}
+      className={mergeButtonClasses({ variant, className })}
       style={{
         clipPath: clipPathValue,
         ...props.style,
