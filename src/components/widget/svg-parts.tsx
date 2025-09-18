@@ -8,7 +8,7 @@ const commonButtonLikeProps: React.SVGProps<SVGSVGElement> = {
   tabIndex: 0,
 };
 
-const commonClassName = "widget-shape";
+const commonClassName = "widget-shape cursor-pointer";
 
 export function BottomLeft(props: SvgProps) {
   return (

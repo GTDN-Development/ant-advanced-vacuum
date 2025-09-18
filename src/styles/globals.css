@@ -10,4 +10,8 @@
   .widget-shape:hover {
     --shape-color: var(--color-red-500);
   }
+
+  .widget-shape.text-red-500 {
+    --shape-color: var(--color-red-500);
+  }
 }

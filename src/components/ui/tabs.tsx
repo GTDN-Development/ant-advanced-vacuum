@@ -17,7 +17,7 @@ function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimi
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={`items-strech mx-auto flex w-full flex-col justify-center bg-gray-100 p-4 md:w-auto md:flex-row md:items-center ${className || ""}`}
+      className={`items-strech mx-auto flex w-full flex-col justify-center bg-gray-100 p-2 md:w-auto md:flex-row md:items-center ${className || ""}`}
       {...props}
     />
   );

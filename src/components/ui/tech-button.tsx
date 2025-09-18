@@ -13,8 +13,10 @@ export function TechButton({
     <button
       {...props}
       className={clsx(
-        "px-6 py-3 text-lg font-semibold",
-        isSelected ? "bg-red-600 text-white" : "bg-gray-100 text-gray-900",
+        "cursor-pointer px-6 py-3 text-lg font-semibold",
+        isSelected
+          ? "bg-red-600 text-white hover:bg-red-700"
+          : "bg-gray-100 text-gray-900 hover:bg-gray-200",
         className
       )}
       style={{

@@ -9,6 +9,7 @@ import type { UseCase } from "./lib/usecases";
 import { getAllUseCases } from "./lib/usecases";
 import { getAllTechnologies } from "./lib/technologies";
 import type { Technology } from "./lib/technologies";
+import { technologySections } from "./constants/technology-sections";
 import { useEffect, useState, useMemo } from "react";
 import { Widget } from "./components/widget/widget";
 import GetInTouch from "./components/get-in-touch-section";
@@ -78,7 +79,14 @@ function AppContent() {
         </Container>
 
         <Container className="hidden items-center justify-center lg:flex">
-          <Widget />
+          <Widget
+            technologies={technologies}
+            isInWishlist={isInWishlist}
+            onTechnologyClick={(technology) => {
+              setSelectedTechnology(technology);
+              setIsTechnologyDialogOpen(true);
+            }}
+          />
         </Container>
 
         {/* Mobile menu */}
@@ -242,7 +250,7 @@ function AppContent() {
                 {selectedUseCase.name}
               </Heading>
               <div
-                className="prose prose-sm mt-4 max-w-none"
+                className="prose mt-4 max-w-none"
                 dangerouslySetInnerHTML={{ __html: selectedUseCase.modalContent }}
               />
 
@@ -273,16 +281,18 @@ function AppContent() {
         <DialogContent>
           {selectedTechnology ? (
             <div>
+              <img src={selectedTechnology.image} alt={selectedTechnology.name} />
               <Heading as="h4" className="mt-6 text-xl font-bold">
                 {selectedTechnology.name}
               </Heading>
               <div
-                className="prose prose-sm max-w-none"
+                className="prose mt-4 max-w-none"
                 dangerouslySetInnerHTML={{ __html: selectedTechnology.modalContent }}
               />
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button variant="primary">Detail</Button>
-                <Button onClick={() => setIsTechnologyDialogOpen(false)}>Close and continue</Button>
+                <Button variant="secondary" onClick={() => setIsTechnologyDialogOpen(false)}>
+                  Close and continue
+                </Button>
                 <Button
                   variant="primary"
                   onClick={() => {
@@ -316,23 +326,3 @@ export default function App() {
     </WishlistProvider>
   );
 }
-
-type TechnologySection = {
-  name: string;
-  technologySection: string | string[];
-};
-
-const technologySections: TechnologySection[] = [
-  {
-    name: "Vacuum Chamber",
-    technologySection: ["vacuumChamber", "vacuumEnviroment", "vacuumEnvironment"],
-  },
-  { name: "Adsorption", technologySection: "adsorption" },
-  { name: "Vaporisation", technologySection: "vaporisation" },
-  { name: "Virtual leaks", technologySection: "virtualLeaks" },
-  { name: "Real leaks", technologySection: "realLeaks" },
-  { name: "BackFlow vacuum pump", technologySection: "backFlowVacuumPump" },
-  { name: "Permeation", technologySection: "permeation" },
-  { name: "Diffusion", technologySection: "diffusion" },
-  { name: "Desorption", technologySection: ["desorption", "dessorption"] },
-];
