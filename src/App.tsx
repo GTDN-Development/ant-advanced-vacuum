@@ -242,7 +242,7 @@ function AppContent() {
       <Dialog open={isUseCaseDialogOpen} onOpenChange={setIsUseCaseDialogOpen}>
         <DialogContent>
           {selectedUseCase ? (
-            <div>
+            <div className="pt-3 pb-6">
               {selectedUseCase.images.map((image, index) => (
                 <img key={index} src={image} alt={selectedUseCase.name} className="mb-4" />
               ))}
@@ -280,7 +280,7 @@ function AppContent() {
       <Dialog open={isTechnologyDialogOpen} onOpenChange={setIsTechnologyDialogOpen}>
         <DialogContent>
           {selectedTechnology ? (
-            <div>
+            <div className="pt-3 pb-6">
               <img src={selectedTechnology.image} alt={selectedTechnology.name} />
               <Heading as="h4" className="mt-6 text-xl font-bold">
                 {selectedTechnology.name}
