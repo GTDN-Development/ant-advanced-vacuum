@@ -24,6 +24,10 @@ export default function App() {
   const [loadingUseCases, setLoadingUseCases] = useState<boolean>(true);
 
   const [isUseCaseDialogOpen, setIsUseCaseDialogOpen] = useState<boolean>(false);
+  const [selectedUseCase, setSelectedUseCase] = useState<UseCase | null>(null);
+
+  const [isTechnologyDialogOpen, setIsTechnologyDialogOpen] = useState<boolean>(false);
+  const [selectedTechnology, setSelectedTechnology] = useState<Technology | null>(null);
 
   useEffect(() => {
     getAllTechnologies()
@@ -71,6 +75,10 @@ export default function App() {
                               <button
                                 style={{ clipPath: clipPathValue }}
                                 className="bg-red-600 px-6 py-3 text-lg font-semibold text-red-50"
+                                onClick={() => {
+                                  setSelectedTechnology(tech);
+                                  setIsTechnologyDialogOpen(true);
+                                }}
                               >
                                 {tech.name}
                               </button>
@@ -120,7 +128,12 @@ export default function App() {
                       <Card key={index}>
                         <CardImage src={item.images[0]} alt={item.name} />
                         <Heading as="h3">{item.name}</Heading>
-                        <CardButton onClick={() => setIsUseCaseDialogOpen(true)}>
+                        <CardButton
+                          onClick={() => {
+                            setSelectedUseCase(item);
+                            setIsUseCaseDialogOpen(true);
+                          }}
+                        >
                           Learn more
                         </CardButton>
                       </Card>
@@ -143,7 +156,38 @@ export default function App() {
 
       <Dialog open={isUseCaseDialogOpen} onOpenChange={setIsUseCaseDialogOpen}>
         <DialogContent>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta, nulla.
+          {selectedUseCase ? (
+            <div>
+              <h2 className="mb-4 text-2xl font-bold">{selectedUseCase.name}</h2>
+              <div
+                className="prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={{ __html: selectedUseCase.modalContent }}
+              />
+            </div>
+          ) : (
+            <div>No use case selected</div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isTechnologyDialogOpen} onOpenChange={setIsTechnologyDialogOpen}>
+        <DialogContent>
+          {selectedTechnology ? (
+            <div>
+              <h2 className="mb-4 text-2xl font-bold">{selectedTechnology.name}</h2>
+              <div
+                className="prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={{ __html: selectedTechnology.modalContent }}
+              />
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Button variant="primary">Detail</Button>
+                <Button variant="secondary">Close and continue</Button>
+                <Button variant="primary">Add to wish list and continue</Button>
+              </div>
+            </div>
+          ) : (
+            <div>No technology selected</div>
+          )}
         </DialogContent>
       </Dialog>
     </>
