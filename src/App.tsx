@@ -285,11 +285,14 @@ function AppContent() {
                     Used technology:
                   </Heading>
                   <div className="mt-3 flex flex-wrap gap-1">
-                    {selectedUseCase.technologies.map((technology, index) => (
-                      <Badge key={index} isSmall>
-                        {technology}
-                      </Badge>
-                    ))}
+                    {selectedUseCase.technologies.map((technologySlug, index) => {
+                      const technology = technologies.find((tech) => tech.slug === technologySlug);
+                      return (
+                        <Badge key={index} isSmall isGray={!isInWishlist(technologySlug)}>
+                          {technology?.name || technologySlug}
+                        </Badge>
+                      );
+                    })}
                   </div>
                 </div>
               )}
