@@ -20,6 +20,7 @@ import { WishlistProvider } from "./context/wishlist-context";
 import { useWishlist } from "./hooks/use-wishlist";
 import { Badge } from "./components/ui/badge";
 import { TechButton } from "./components/ui/tech-button";
+import { Carousel } from "./components/ui/carousel";
 
 function AppContent() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -243,9 +244,33 @@ function AppContent() {
         <DialogContent>
           {selectedUseCase ? (
             <div className="pt-3 pb-6">
-              {selectedUseCase.images.map((image, index) => (
-                <img key={index} src={image} alt={selectedUseCase.name} className="mb-4" />
-              ))}
+              {selectedUseCase.images.length === 0 && (
+                <p className="text-center text-gray-500">No images available</p>
+              )}
+
+              {selectedUseCase.images.length === 1 && (
+                <div className="flex h-72 w-full items-center justify-center">
+                  <img
+                    src={selectedUseCase.images[0]}
+                    alt={selectedUseCase.name}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+              )}
+              {selectedUseCase.images.length > 1 && (
+                <Carousel
+                  slides={selectedUseCase.images.map((image, index) => ({
+                    children: (
+                      <img
+                        src={image}
+                        alt={`${selectedUseCase.name} - Image ${index + 1}`}
+                        className="h-auto w-full object-cover"
+                      />
+                    ),
+                  }))}
+                  options={{ loop: true }}
+                />
+              )}
               <Heading as="h4" className="mt-6 text-xl font-bold">
                 {selectedUseCase.name}
               </Heading>
@@ -281,7 +306,13 @@ function AppContent() {
         <DialogContent>
           {selectedTechnology ? (
             <div className="pt-3 pb-6">
-              <img src={selectedTechnology.image} alt={selectedTechnology.name} />
+              <div className="flex h-72 w-full items-center justify-center">
+                <img
+                  src={selectedTechnology.image}
+                  alt={selectedTechnology.name}
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
               <Heading as="h4" className="mt-6 text-xl font-bold">
                 {selectedTechnology.name}
               </Heading>

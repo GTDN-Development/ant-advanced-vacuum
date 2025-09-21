@@ -40,8 +40,6 @@ function DialogContent({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
-  src?: string;
-  title?: string;
 }) {
   return (
     <DialogPortal data-slot="dialog-portal">
@@ -51,35 +49,19 @@ function DialogContent({
         className={`data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed inset-y-0 right-0 z-50 flex h-screen w-full max-w-lg flex-col bg-white shadow-lg duration-400 ${className ?? ""}`}
         {...props}
       >
-        {/* Fixed header section with image and close button */}
-        <div className="flex-shrink-0">
-          {props.src && (
-            <div>
-              <DialogTitle className="absolute top-4 left-6">{props.title}</DialogTitle>
-              <div className="relative aspect-[16/9] overflow-clip">
-                <img
-                  src={props.src}
-                  className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 object-cover"
-                />
-              </div>
-            </div>
-          )}
-
-          {showCloseButton && (
-            <DialogPrimitive.Close
-              data-slot="dialog-close"
-              className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-6 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-            >
-              <CloseIcon aria-hidden={true} />
-              <span className="sr-only">Close</span>
-            </DialogPrimitive.Close>
-          )}
-        </div>
-
         {/* Scrollable content area */}
         <div className="flex flex-1 flex-col overflow-y-auto px-6 pt-2 pb-6">
-          <div className="flex flex-col gap-4">{children}</div>
+          <div className="flex flex-col gap-4 pt-8">{children}</div>
         </div>
+        {showCloseButton && (
+          <DialogPrimitive.Close
+            data-slot="dialog-close"
+            className="absolute top-4 right-6 z-50 cursor-pointer rounded-lg p-1 transition-colors hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-gray-50 data-[state=open]:text-gray-900 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+          >
+            <span className="sr-only">Close</span>
+            <CloseIcon aria-hidden="true" className="size-5" />
+          </DialogPrimitive.Close>
+        )}
       </DialogPrimitive.Content>
     </DialogPortal>
   );
