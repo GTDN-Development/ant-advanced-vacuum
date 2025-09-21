@@ -15,7 +15,10 @@ export function Badge(
     >
       {props.children}
       {props.onCloseButtonClick && (
-        <button onClick={props.onCloseButtonClick}>
+        <button
+          onClick={props.onCloseButtonClick}
+          className="flex size-5 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-800"
+        >
           <CloseIcon className="size-4" />
         </button>
       )}
