@@ -14,7 +14,7 @@ const commonPathProps: React.SVGProps<SVGPathElement> = {
 };
 
 const commonSvgClassName = "pointer-events-none";
-const commonPathClassName = "widget-shape cursor-pointer";
+const commonPathClassName = "widget-shape cursor-pointer focus:outline-none";
 
 export function BottomLeft(props: SvgProps) {
   const { onPathClick, onPathKeyDown, onPathMouseEnter, onPathMouseLeave, ...svgProps } = props;
