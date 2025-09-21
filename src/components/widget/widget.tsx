@@ -30,6 +30,7 @@ export function Widget({
   ...props
 }: WidgetProps) {
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
   const handleSectionClick = (sectionName: string) => {
     setActiveSection(activeSection === sectionName ? null : sectionName);
@@ -40,6 +41,14 @@ export function Widget({
       event.preventDefault();
       handleSectionClick(sectionName);
     }
+  };
+
+  const handleMouseEnter = (sectionName: string) => {
+    setHoveredSection(sectionName);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredSection(null);
   };
 
   // Define which sections go on which side
@@ -64,118 +73,178 @@ export function Widget({
         />
       </div>
       <div {...props} className="relative aspect-square size-[648px]">
-        <div className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
-          <TileLabel className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
+          <TileLabel
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+            isHovered={hoveredSection === "Vacuum Chamber"}
+          >
             Vacuum <br /> Chamber
           </TileLabel>
           <CenterSvg
-            onClick={() => handleSectionClick("Vacuum Chamber")}
-            onKeyDown={(e) => handleKeyDown(e, "Vacuum Chamber")}
+            onPathClick={() => handleSectionClick("Vacuum Chamber")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Vacuum Chamber")}
+            onPathMouseEnter={() => handleMouseEnter("Vacuum Chamber")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
 
-        <div className="group absolute top-0 left-0 translate-x-2.5 select-none">
+        <div className="pointer-events-none absolute top-0 left-0 translate-x-2.5 select-none">
           <TileImage
             src="/widget-png/default/desorption.png"
             srcOnHover="/widget-png/hover/desorption.png"
             title="Desorption"
             className="absolute top-18 right-5 w-18"
+            isHovered={hoveredSection === "Desorption"}
           />
-          <TileLabel className="absolute top-5 right-5">Desorption</TileLabel>
+          <TileLabel className="absolute top-5 right-5" isHovered={hoveredSection === "Desorption"}>
+            Desorption
+          </TileLabel>
           <TopLeftSvg
-            onClick={() => handleSectionClick("Desorption")}
-            onKeyDown={(e) => handleKeyDown(e, "Desorption")}
+            onPathClick={() => handleSectionClick("Desorption")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Desorption")}
+            onPathMouseEnter={() => handleMouseEnter("Desorption")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute top-0 right-0 -translate-x-2.5 select-none">
+        <div className="pointer-events-none absolute top-0 right-0 -translate-x-2.5 select-none">
           <TileImage
             src="/widget-png/default/adsorption.png"
             srcOnHover="/widget-png/hover/adsorption.png"
             title="Adsorption"
             className="absolute top-18 left-5 w-18"
+            isHovered={hoveredSection === "Adsorption"}
           />
-          <TileLabel className="absolute top-5 left-5">Adsorption</TileLabel>
+          <TileLabel className="absolute top-5 left-5" isHovered={hoveredSection === "Adsorption"}>
+            Adsorption
+          </TileLabel>
           <TopRightSvg
-            onClick={() => handleSectionClick("Adsorption")}
-            onKeyDown={(e) => handleKeyDown(e, "Adsorption")}
+            onPathClick={() => handleSectionClick("Adsorption")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Adsorption")}
+            onPathMouseEnter={() => handleMouseEnter("Adsorption")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute top-0 right-0 translate-y-2.5 select-none">
+        <div className="pointer-events-none absolute top-0 right-0 translate-y-2.5 select-none">
           <TileImage
             src="/widget-png/default/vaporisation.png"
             srcOnHover="/widget-png/hover/vaporisation.png"
             title="Vaporisation"
             className="absolute right-5 bottom-12.5 w-33.5"
+            isHovered={hoveredSection === "Vaporisation"}
           />
-          <TileLabel className="absolute right-5 bottom-5">Vaporisation</TileLabel>
+          <TileLabel
+            className="absolute right-5 bottom-5"
+            isHovered={hoveredSection === "Vaporisation"}
+          >
+            Vaporisation
+          </TileLabel>
           <RightTopSvg
-            onClick={() => handleSectionClick("Vaporisation")}
-            onKeyDown={(e) => handleKeyDown(e, "Vaporisation")}
+            onPathClick={() => handleSectionClick("Vaporisation")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Vaporisation")}
+            onPathMouseEnter={() => handleMouseEnter("Vaporisation")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute right-0 bottom-0 -translate-y-2.5 select-none">
+        <div className="pointer-events-none absolute right-0 bottom-0 -translate-y-2.5 select-none">
           <TileImage
             src="/widget-png/default/virtual-leaks.png"
             srcOnHover="/widget-png/hover/virtual-leaks.png"
             title="Virtual leaks"
             className="absolute top-16 right-5 w-23"
+            isHovered={hoveredSection === "Virtual leaks"}
           />
-          <TileLabel className="absolute top-5 right-5">Virtual leaks</TileLabel>
+          <TileLabel
+            className="absolute top-5 right-5"
+            isHovered={hoveredSection === "Virtual leaks"}
+          >
+            Virtual leaks
+          </TileLabel>
           <RightBottomSvg
-            onClick={() => handleSectionClick("Virtual leaks")}
-            onKeyDown={(e) => handleKeyDown(e, "Virtual leaks")}
+            onPathClick={() => handleSectionClick("Virtual leaks")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Virtual leaks")}
+            onPathMouseEnter={() => handleMouseEnter("Virtual leaks")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute right-0 bottom-0 -translate-x-2.5 select-none">
+        <div className="pointer-events-none absolute right-0 bottom-0 -translate-x-2.5 select-none">
           <TileImage
             src="/widget-png/default/real-leaks.png"
             srcOnHover="/widget-png/hover/real-leaks.png"
             title="Real leaks"
             className="absolute top-5.5 left-8 w-10"
+            isHovered={hoveredSection === "Real leaks"}
           />
-          <TileLabel className="absolute bottom-5 left-5">Real leaks</TileLabel>
+          <TileLabel
+            className="absolute bottom-5 left-5"
+            isHovered={hoveredSection === "Real leaks"}
+          >
+            Real leaks
+          </TileLabel>
           <BottomRightSvg
-            onClick={() => handleSectionClick("Real leaks")}
-            onKeyDown={(e) => handleKeyDown(e, "Real leaks")}
+            onPathClick={() => handleSectionClick("Real leaks")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Real leaks")}
+            onPathMouseEnter={() => handleMouseEnter("Real leaks")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute bottom-0 left-0 translate-x-2.5 select-none">
+        <div className="pointer-events-none absolute bottom-0 left-0 translate-x-2.5 select-none">
           <TileImage
             src="/widget-png/default/backflow-vacuum-pump.png"
             srcOnHover="/widget-png/hover/backflow-vacuum-pump.png"
             title="Backflow vacuum pump"
             className="absolute top-10 right-8 w-13"
+            isHovered={hoveredSection === "BackFlow vacuum pump"}
           />
-          <TileLabel className="absolute right-5 bottom-5">Backflow vacuum pump</TileLabel>
+          <TileLabel
+            className="absolute right-5 bottom-5"
+            isHovered={hoveredSection === "BackFlow vacuum pump"}
+          >
+            Backflow vacuum pump
+          </TileLabel>
           <BottomLeftSvg
-            onClick={() => handleSectionClick("BackFlow vacuum pump")}
-            onKeyDown={(e) => handleKeyDown(e, "BackFlow vacuum pump")}
+            onPathClick={() => handleSectionClick("BackFlow vacuum pump")}
+            onPathKeyDown={(e) => handleKeyDown(e, "BackFlow vacuum pump")}
+            onPathMouseEnter={() => handleMouseEnter("BackFlow vacuum pump")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute bottom-0 left-0 -translate-y-2.5 select-none">
+        <div className="pointer-events-none absolute bottom-0 left-0 -translate-y-2.5 select-none">
           <TileImage
             src="/widget-png/default/permeation.png"
             srcOnHover="/widget-png/hover/permeation.png"
             title="Permeation"
             className="absolute top-14 left-5 w-38"
+            isHovered={hoveredSection === "Permeation"}
           />
-          <TileLabel className="absolute top-5 left-5">Permeation</TileLabel>
+          <TileLabel className="absolute top-5 left-5" isHovered={hoveredSection === "Permeation"}>
+            Permeation
+          </TileLabel>
           <LeftBottomSvg
-            onClick={() => handleSectionClick("Permeation")}
-            onKeyDown={(e) => handleKeyDown(e, "Permeation")}
+            onPathClick={() => handleSectionClick("Permeation")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Permeation")}
+            onPathMouseEnter={() => handleMouseEnter("Permeation")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
-        <div className="group absolute top-0 left-0 translate-y-2.5 select-none">
+        <div className="pointer-events-none absolute top-0 left-0 translate-y-2.5 select-none">
           <TileImage
             src="/widget-png/default/diffusion.png"
             srcOnHover="/widget-png/hover/diffusion.png"
             title="Diffusion"
             className="absolute bottom-12 left-5 w-33"
+            isHovered={hoveredSection === "Diffusion"}
           />
-          <TileLabel className="absolute bottom-5 left-5">Diffusion</TileLabel>
+          <TileLabel
+            className="absolute bottom-5 left-5"
+            isHovered={hoveredSection === "Diffusion"}
+          >
+            Diffusion
+          </TileLabel>
           <LeftTopSvg
-            onClick={() => handleSectionClick("Diffusion")}
-            onKeyDown={(e) => handleKeyDown(e, "Diffusion")}
+            onPathClick={() => handleSectionClick("Diffusion")}
+            onPathKeyDown={(e) => handleKeyDown(e, "Diffusion")}
+            onPathMouseEnter={() => handleMouseEnter("Diffusion")}
+            onPathMouseLeave={handleMouseLeave}
           />
         </div>
       </div>
@@ -192,13 +261,15 @@ export function Widget({
   );
 }
 
-function TileLabel(props: React.ComponentProps<"span">) {
+function TileLabel(props: React.ComponentProps<"span"> & { isHovered?: boolean }) {
+  const { isHovered, ...spanProps } = props;
   return (
     <span
-      {...props}
+      {...spanProps}
       className={clsx(
-        "pointer-events-none text-lg font-bold group-hover:text-white",
-        props.className
+        "pointer-events-none text-lg font-bold transition-colors duration-200",
+        isHovered ? "text-white" : "text-current",
+        spanProps.className
       )}
     >
       {props.children}
@@ -211,15 +282,16 @@ function TileImage(
     src: string;
     srcOnHover: string;
     title: string;
+    isHovered?: boolean;
   }
 ) {
+  const { src, srcOnHover, title, isHovered, ...divProps } = props;
   return (
-    <div {...props} className={clsx(props.className, "pointer-events-none")}>
-      <img src={props.src} alt={props.title} className="w-full object-contain group-hover:hidden" />
+    <div {...divProps} className={clsx(divProps.className, "pointer-events-none")}>
       <img
-        src={props.srcOnHover}
-        alt={props.title}
-        className="hidden w-full object-contain group-hover:block"
+        src={isHovered ? srcOnHover : src}
+        alt={title}
+        className="pointer-events-none w-full object-contain transition-opacity duration-200"
       />
     </div>
   );
