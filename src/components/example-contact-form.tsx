@@ -9,15 +9,23 @@ import { useForm } from "react-hook-form";
 import { AttachmentIcon } from "./icons/attachment-icon";
 import { Textarea } from "./ui/text-area";
 
-const contactFormSchema = z.object({
-  email: z.string().email("wrong email"),
-  emailagain: z.string().email("wrong email"),
-  phone: z.string().min(9, "wrong phone"),
-  name: z.string().min(2, "wrong name"),
-  institutionName: z.string().min(2, "wrong institution"),
-  position: z.string().min(2, "wrong position"),
-  message: z.string().min(5, "wrong message"),
-});
+const contactFormSchema = z
+  .object({
+    email: z.email("Please enter valid email"),
+    emailagain: z.email("Please re-enter a valid email address"),
+    phone: z
+      .string()
+      .min(9, "Phone number must be at least 9 digits")
+      .max(16, "Phone number is too long"),
+    name: z.string().min(2, "Your name must be at least 2 characters"),
+    institutionName: z.string().min(2, "Institution name must be at least 2 characters"),
+    position: z.string().min(2, "Position must be at least 2 characters"),
+    message: z.string().min(10, "Message must be at least 10 characters"),
+  })
+  .refine((data) => data.email === data.emailagain, {
+    path: ["emailagain"],
+    message: "Emails must match",
+  });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
@@ -43,11 +51,11 @@ export function WishlistForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="gap-4">
-            <div className="mb-4 h-5 w-5 bg-red-600"></div>
+          <div className="flex flex-col items-start gap-2">
+            <div className="h-3 w-3 bg-red-600"></div>
             <h1 className="text-2xl font-bold"> CONTACT FORM </h1>
           </div>
-          <div className="">
+          <div className="flex flex-col gap-4">
             <FormField<ContactFormData>
               control={form.control}
               name="email"
@@ -78,11 +86,7 @@ export function WishlistForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="Phone (International format)"
-                      {...field}
-                      className="rounded-none"
-                    />
+                    <Input placeholder="Phone (International format)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,7 +99,7 @@ export function WishlistForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Name" {...field} className="rounded-none" />
+                    <Input placeholder="Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,7 +111,7 @@ export function WishlistForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Institution Name" {...field} className="rounded-none" />
+                    <Input placeholder="Institution Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,7 +123,7 @@ export function WishlistForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Your position" {...field} className="rounded-none" />
+                    <Input placeholder="Your position" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -137,20 +141,20 @@ export function WishlistForm() {
                 </FormItem>
               )}
             />
-
-            <Button type="submit">Odeslat</Button>
-            <div className="flex items-center gap-2 text-gray-300">
-              <AttachmentIcon className="h-4 w-4 text-gray-300" />
-              <p>add attachment max 10MB</p>
-            </div>
-            <div className="mt-20 flex flex-col items-center gap-8">
-              <div className="w-50 bg-amber-700">SPACE FOR CAPTCHA</div>
-              <p className="text-gray-300">
+            <div className="flex flex-col items-start gap-4">
+              <div className="flex items-center gap-2 text-gray-300">
+                <AttachmentIcon className="h-4 w-4 text-gray-300" />
+                <p>add attachment max 10MB</p>
+              </div>
+              <p className="w-full text-gray-300">
                 by submitting the form i agree to acknowledge the processing of{" "}
-                <a href="/terms" className="text-red-600 hover:underline">
+                <a href="/" className="text-red-600 hover:underline">
                   personal data
                 </a>
               </p>
+              <Button type="submit" className="mt-6">
+                Odeslat
+              </Button>
             </div>
           </div>
         </form>

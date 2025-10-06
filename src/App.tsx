@@ -354,14 +354,15 @@ function AppContent() {
           )}
         </DialogContent>
       </Dialog>
-      {/* zkouška contact  */}
+      {/* zkouška contact form  */}
       <Button
+        className="h-10 w-10"
         onClick={() => {
           setIsWishlistFormDialogOpen(true);
         }}
       />
       <Dialog open={isWishlistFormDialogOpen} onOpenChange={setIsWishlistFormDialogOpen}>
-        <DialogContent className="right-100 px-10">
+        <DialogContent className="px-10">
           <WishlistForm />
         </DialogContent>
       </Dialog>
