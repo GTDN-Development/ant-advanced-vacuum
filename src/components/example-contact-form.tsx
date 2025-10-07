@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AttachmentIcon } from "./icons/attachment-icon";
 import { Textarea } from "./ui/text-area";
+import { useState } from "react";
 
 const contactFormSchema = z
   .object({
@@ -21,6 +22,10 @@ const contactFormSchema = z
     institutionName: z.string().min(2, "Institution name must be at least 2 characters"),
     position: z.string().min(2, "Position must be at least 2 characters"),
     message: z.string().min(10, "Message must be at least 10 characters"),
+    attachment: z
+      .any()
+      .optional()
+      .refine((file) => !file || file.size <= 10 * 1024 * 1024, "File must be under 10MB"),
   })
   .refine((data) => data.email === data.emailagain, {
     path: ["emailagain"],
@@ -28,6 +33,15 @@ const contactFormSchema = z
   });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
+
+function getBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+}
 
 export function WishlistForm() {
   const form = useForm<ContactFormData>({
@@ -40,12 +54,63 @@ export function WishlistForm() {
       institutionName: "",
       position: "",
       message: "",
+      attachment: undefined,
     },
   });
+  const [fileName, setFileName] = useState<string>("");
 
-  function onSubmit(data: ContactFormData) {
-    console.log("data", data);
-  }
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      let attachmentBase64 = "";
+      let attachmentName = "";
+
+      if (data.attachment) {
+        const file = data.attachment as File;
+        attachmentName = file.name;
+        attachmentBase64 = await getBase64(file);
+      }
+      console.log("📦 Payload to be sent:");
+      console.log({
+        email: data.email,
+        phone: data.phone,
+        name: data.name,
+        institution: data.institutionName,
+        position: data.position,
+        comment: data.message,
+        attachment_name: attachmentName,
+        attachment: attachmentBase64
+          ? attachmentBase64.substring(0, 200) + "..." // jen prvních 200 znaků
+          : null,
+      });
+
+      const response = await fetch("", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          phone: data.phone,
+          name: data.name,
+          institution: data.institutionName,
+          position: data.position,
+          comment: data.message,
+          attachment_name: attachmentName,
+          attachment: attachmentBase64,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("❌ Server error:", error);
+        return;
+      }
+
+      console.log("Form sent successfully!");
+    } catch (err) {
+      console.error("❌ Network or parsing error:", err);
+    }
+  };
 
   return (
     <>
@@ -141,11 +206,40 @@ export function WishlistForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="attachment"
+              render={({ field }) => (
+                <FormItem className="">
+                  <label
+                    htmlFor="attachment-input"
+                    className="group flex cursor-pointer items-center gap-2 text-gray-300 transition-colors hover:text-red-500"
+                  >
+                    <AttachmentIcon className="h-5 w-5 text-gray-300 group-hover:text-red-500" />
+                    <span className="text-sm group-hover:text-red-500">
+                      add attachment (max 10MB)
+                    </span>
+                  </label>
+
+                  <FormControl className="text- border-none shadow-transparent">
+                    <input
+                      id="attachment-input"
+                      className="hidden"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        field.onChange(file);
+                        setFileName(file ? file.name : "");
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  {fileName && <p className="mt-1 text-sm text-gray-400">Selected: {fileName}</p>}
+                </FormItem>
+              )}
+            />
             <div className="flex flex-col items-start gap-4">
-              <div className="flex items-center gap-2 text-gray-300">
-                <AttachmentIcon className="h-4 w-4 text-gray-300" />
-                <p>add attachment max 10MB</p>
-              </div>
               <p className="w-full text-gray-300">
                 by submitting the form i agree to acknowledge the processing of{" "}
                 <a href="/" className="text-red-600 hover:underline">
