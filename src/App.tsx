@@ -166,43 +166,50 @@ function AppContent() {
                 <div className="flex items-center justify-center py-8 text-gray-500">
                   No technologies in wishlist yet
                 </div>
-              ) : wishlistUseCases.length === 0 ? (
-                <div className="flex items-center justify-center py-8 text-gray-500">
-                  No use cases match your wishlist technologies
-                </div>
               ) : (
-                <div className="flex flex-col gap-4">
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <p className="text-center">Use cases matching your wishlist technologies:</p>
-                    <div className="flex flex-wrap items-center justify-center gap-1.5">
-                      {/* Render badges for wishlist technologies */}
-                      {wishlist.map((techItem, index) => (
-                        <Badge
-                          key={index}
-                          onCloseButtonClick={() => removeFromWishlist(techItem.slug)}
-                        >
-                          {techItem.name}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {wishlistUseCases.map((item, index) => (
-                      <Card key={index}>
-                        <CardImage src={item.images[0]} alt={item.name} />
-                        <Heading as="h3">{item.name}</Heading>
-                        <CardButton
-                          onClick={() => {
-                            setSelectedUseCase(item);
-                            setIsUseCaseDialogOpen(true);
-                          }}
-                        >
-                          Learn more
-                        </CardButton>
-                      </Card>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <p className="text-center">Use cases matching your wishlist technologies:</p>
+                  <div className="flex flex-wrap items-center justify-center gap-1.5">
+                    {/* Render badges for wishlist technologies */}
+                    {wishlist.map((techItem, index) => (
+                      <Badge
+                        key={index}
+                        onCloseButtonClick={() => removeFromWishlist(techItem.slug)}
+                      >
+                        {techItem.name}
+                      </Badge>
                     ))}
                   </div>
                 </div>
+              )}
+
+              {wishlistCount !== 0 && (
+                <>
+                  {wishlistUseCases.length === 0 ? (
+                    <div className="flex items-center justify-center py-8 text-gray-500">
+                      No use cases match your wishlist technologies
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {wishlistUseCases.map((item, index) => (
+                          <Card key={index}>
+                            <CardImage src={item.images[0]} alt={item.name} />
+                            <Heading as="h3">{item.name}</Heading>
+                            <CardButton
+                              onClick={() => {
+                                setSelectedUseCase(item);
+                                setIsUseCaseDialogOpen(true);
+                              }}
+                            >
+                              Learn more
+                            </CardButton>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </TabsContent>
             <TabsContent value="all">
