@@ -10,8 +10,8 @@ export type TechnologiesResponse = Technology[];
 
 // API function to fetch all technologies
 export async function getAllTechnologies(): Promise<TechnologiesResponse> {
-  const url = "https://private-84d45-advancedvacuum.apiary-mock.com/technologies";
-  // const url = "https://advancedvacuum.antstudio.dev/wp-json/wp/v2/react/technologies";
+  // const url = "https://private-84d45-advancedvacuum.apiary-mock.com/technologies";
+  const url = "https://advancedvacuum.antstudio.dev/wp-json/wp/v2/react/technologies";
 
   try {
     const response = await fetch(url);
