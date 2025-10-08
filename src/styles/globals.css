@@ -2,8 +2,6 @@
 @import "./prose.css";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @layer components {
   .widget-shape {
     --shape-color: var(--color-gray-100);

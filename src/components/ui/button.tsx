@@ -16,7 +16,7 @@ function mergeButtonClasses({
   variant?: ButtonVariant;
 }) {
   return clsx(
-    "border-xs flex items-center justify-center gap-2 py-2.5 pr-6.5 pl-6",
+    "border-xs flex items-center justify-center gap-2 py-2.5 pr-6.5 pl-6 text-center",
     styles[variant],
     className
   );

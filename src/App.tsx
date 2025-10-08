@@ -22,7 +22,7 @@ import { Badge } from "./components/ui/badge";
 import { TechButton } from "./components/ui/tech-button";
 import { Carousel } from "./components/ui/carousel";
 
-import { WishlistForm } from "./components/example-contact-form";
+import { SendWishlistForm } from "./components/send-wishlist-form";
 
 function AppContent() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -36,7 +36,6 @@ function AppContent() {
   const [isTechnologyDialogOpen, setIsTechnologyDialogOpen] = useState<boolean>(false);
   const [selectedTechnology, setSelectedTechnology] = useState<Technology | null>(null);
 
-  // zkouška dialogu
   const [isWishlistFormDialogOpen, setIsWishlistFormDialogOpen] = useState<boolean>(false);
 
   const { wishlist, addToWishlist, removeFromWishlist, isInWishlist, wishlistCount } =
@@ -235,16 +234,71 @@ function AppContent() {
 
         {/*Cards*/}
         <Container className="flex items-center justify-start sm:justify-center">
-          <ButtonLink href="#contact-form" className="mt-10">
+          <Button onClick={() => setIsWishlistFormDialogOpen(true)} className="mt-10">
             send wishlist
             <span className="flex items-center gap-0.5">
               <span className="block">{wishlist.length}</span>
               <HeartIcon aria-hidden="true" className="size-5 text-white" />
             </span>
-          </ButtonLink>
+          </Button>
         </Container>
       </div>
 
+      {/* Technology dialog */}
+      <Dialog open={isTechnologyDialogOpen} onOpenChange={setIsTechnologyDialogOpen}>
+        <DialogContent>
+          {selectedTechnology ? (
+            <div className="pt-3 pb-6">
+              <div className="flex h-72 w-full items-center justify-center">
+                <img
+                  src={selectedTechnology.image}
+                  alt={selectedTechnology.name}
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              <Heading as="h4" className="mt-6 text-xl font-bold">
+                {selectedTechnology.name}
+              </Heading>
+              <div
+                className="prose mt-4 max-w-none"
+                dangerouslySetInnerHTML={{ __html: selectedTechnology.modalContent }}
+              />
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <Button variant="secondary" onClick={() => setIsTechnologyDialogOpen(false)}>
+                  Close and continue
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    if (isInWishlist(selectedTechnology.slug)) {
+                      removeFromWishlist(selectedTechnology.slug);
+                    } else {
+                      addToWishlist(selectedTechnology);
+                    }
+                    setIsTechnologyDialogOpen(false);
+                  }}
+                >
+                  {isInWishlist(selectedTechnology.slug)
+                    ? "Remove from wish list"
+                    : "Add to wish list and continue"}
+                </Button>
+                <ButtonLink
+                  href={`/technology/${selectedTechnology.slug}`}
+                  variant="secondary"
+                  onClick={() => setIsTechnologyDialogOpen(false)}
+                  className="sm:col-span-2"
+                >
+                  More info about {selectedTechnology.name}
+                </ButtonLink>
+              </div>
+            </div>
+          ) : (
+            <div>No technology selected</div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* useCase dialog */}
       <Dialog open={isUseCaseDialogOpen} onOpenChange={setIsUseCaseDialogOpen}>
         <DialogContent>
           {selectedUseCase ? (
@@ -310,60 +364,10 @@ function AppContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isTechnologyDialogOpen} onOpenChange={setIsTechnologyDialogOpen}>
-        <DialogContent>
-          {selectedTechnology ? (
-            <div className="pt-3 pb-6">
-              <div className="flex h-72 w-full items-center justify-center">
-                <img
-                  src={selectedTechnology.image}
-                  alt={selectedTechnology.name}
-                  className="max-h-full max-w-full object-contain"
-                />
-              </div>
-              <Heading as="h4" className="mt-6 text-xl font-bold">
-                {selectedTechnology.name}
-              </Heading>
-              <div
-                className="prose mt-4 max-w-none"
-                dangerouslySetInnerHTML={{ __html: selectedTechnology.modalContent }}
-              />
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button variant="secondary" onClick={() => setIsTechnologyDialogOpen(false)}>
-                  Close and continue
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    if (isInWishlist(selectedTechnology.slug)) {
-                      removeFromWishlist(selectedTechnology.slug);
-                    } else {
-                      addToWishlist(selectedTechnology);
-                    }
-                    setIsTechnologyDialogOpen(false);
-                  }}
-                >
-                  {isInWishlist(selectedTechnology.slug)
-                    ? "Remove from wish list"
-                    : "Add to wish list and continue"}
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div>No technology selected</div>
-          )}
-        </DialogContent>
-      </Dialog>
-      {/* zkouška contact form  */}
-      <Button
-        className="h-10 w-10"
-        onClick={() => {
-          setIsWishlistFormDialogOpen(true);
-        }}
-      />
+      {/* Submit wishlist with form dialog */}
       <Dialog open={isWishlistFormDialogOpen} onOpenChange={setIsWishlistFormDialogOpen}>
-        <DialogContent className="px-10">
-          <WishlistForm />
+        <DialogContent>
+          <SendWishlistForm wishlist={wishlist} />
         </DialogContent>
       </Dialog>
     </>
