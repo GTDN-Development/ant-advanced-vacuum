@@ -22,6 +22,8 @@ import { Badge } from "./components/ui/badge";
 import { TechButton } from "./components/ui/tech-button";
 import { Carousel } from "./components/ui/carousel";
 
+import { WishlistForm } from "./components/example-contact-form";
+
 function AppContent() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [loadingTechnologies, setLoadingTechnologies] = useState<boolean>(true);
@@ -33,6 +35,9 @@ function AppContent() {
 
   const [isTechnologyDialogOpen, setIsTechnologyDialogOpen] = useState<boolean>(false);
   const [selectedTechnology, setSelectedTechnology] = useState<Technology | null>(null);
+
+  // zkouška dialogu
+  const [isWishlistFormDialogOpen, setIsWishlistFormDialogOpen] = useState<boolean>(false);
 
   const { wishlist, addToWishlist, removeFromWishlist, isInWishlist, wishlistCount } =
     useWishlist();
@@ -347,6 +352,18 @@ function AppContent() {
           ) : (
             <div>No technology selected</div>
           )}
+        </DialogContent>
+      </Dialog>
+      {/* zkouška contact form  */}
+      <Button
+        className="h-10 w-10"
+        onClick={() => {
+          setIsWishlistFormDialogOpen(true);
+        }}
+      />
+      <Dialog open={isWishlistFormDialogOpen} onOpenChange={setIsWishlistFormDialogOpen}>
+        <DialogContent className="px-10">
+          <WishlistForm />
         </DialogContent>
       </Dialog>
     </>
