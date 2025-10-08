@@ -9,7 +9,8 @@ export type UseCasesResponse = UseCase[];
 
 // API function to fetch all use cases
 export async function getAllUseCases(): Promise<UseCasesResponse> {
-  const url = "https://private-84d45-advancedvacuum.apiary-mock.com/usecases";
+  // const url = "https://private-84d45-advancedvacuum.apiary-mock.com/usecases";
+  const url = "https://advancedvacuum.antstudio.dev/wp-json/wp/v2/react/usecases";
 
   try {
     const response = await fetch(url);
