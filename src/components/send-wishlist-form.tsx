@@ -8,8 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AttachmentIcon } from "./icons/attachment-icon";
 import { Textarea } from "./ui/textarea";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Technology } from "../lib/technologies";
+
+import { TurnstileComponent } from "./turnstile/turnstile";
+import type { TurnstileRef } from "./turnstile/turnstile";
 
 const SendWishlistFormSchema = z
   .object({
@@ -74,6 +77,9 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
+  const turnstileRef = useRef<TurnstileRef>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
   const onSubmit = async (data: SendWishlistFormData) => {
     setIsSubmitting(true);
     setSubmitStatus("idle");
@@ -88,8 +94,13 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
           })
         );
       }
+      if (!turnstileToken) {
+        alert("prosím ověřte");
+        return;
+      }
 
       const payload = {
+        turnstileToken,
         email: data.email,
         phone: data.phone,
         name: data.name,
@@ -126,7 +137,7 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ payload }),
         }
       );
 
@@ -145,6 +156,8 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
       setTimeout(() => {
         form.reset();
         setFileNames([]);
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
         setSubmitStatus("idle");
       }, 3000);
     } catch (err) {
@@ -297,6 +310,13 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
                 </FormItem>
               )}
             />
+            <TurnstileComponent
+              ref={turnstileRef}
+              onSuccess={(t) => setTurnstileToken(t)}
+              onError={() => setTurnstileToken(null)}
+              onExpire={() => setTurnstileToken(null)}
+              className="flex justify-center"
+            />
             <div className="flex flex-col items-start gap-4">
               <p className="w-full text-gray-400">
                 By submitting the form I agree to acknowledge the processing of{" "}
@@ -321,3 +341,8 @@ export function SendWishlistForm({ wishlist }: SendWishlistFormProps) {
     </>
   );
 }
+
+// Implementována Cloudflare Turnstile Captcha.
+// Po úspěšném ověření na frontendu dostaneme od Cloudflare `turnstileToken`.
+// Ten je nutné ověřit na backendu podle dokumentace:
+// https://developers.cloudflare.com/turnstile/get-started/server-side-validation/

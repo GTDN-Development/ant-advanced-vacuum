@@ -1,6 +1,6 @@
 "use client";
 
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 export type TurnstileRef = {
@@ -17,7 +17,7 @@ type TurnstileComponentProps = {
 
 export const TurnstileComponent = forwardRef<TurnstileRef, TurnstileComponentProps>(
   ({ onSuccess, onError, onExpire, className }, ref) => {
-    const turnstileRef = useRef<any>(null);
+    const turnstileRef = useRef<TurnstileInstance | null>(null);
 
     useImperativeHandle(ref, () => ({
       reset: () => {
