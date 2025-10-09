@@ -266,15 +266,102 @@ Interactive web application for Streicher's Advanced Vacuum technology visualiza
 ### WishList Submission
 
 1. **Trigger Buttons:** Multiple "Send wish list" buttons throughout app
-2. **Form:** Same as scubechamber.com contact form
+2. **Form:** Advanced contact form with wishlist integration
 3. **Heart Button:** Links to page anchor only (not functional wishlist)
 4. **Submission:** Limited to specified locations for efficiency
 
+#### SendWishlistForm Component
+
+**Location:** `src/components/send-wishlist-form.tsx`
+
+**Props Interface:**
+```tsx
+interface SendWishlistFormProps {
+  wishlist: Technology[];
+}
+```
+
+**Form Fields:**
+- `email` (required) - User email address
+- `emailagain` (required) - Email confirmation
+- `phone` (required) - Phone number in international format
+- `name` (required) - User's full name
+- `institutionName` (required) - Institution/company name
+- `position` (required) - User's position/title
+- `message` (optional) - Additional comments
+- `attachments` (optional) - File attachments (max 10MB total)
+
+**Validation Rules:**
+- Email fields must match exactly
+- Phone: 9-16 characters
+- Name, Institution, Position: minimum 2 characters
+- File attachments: total size ≤ 10MB, individual files ≤ 10MB
+- Accepted file types: `.pdf,.jpg,.jpeg,.png,.doc,.docx`
+
+**API Integration:**
+- **Endpoint:** `POST https://advancedvacuum.antstudio.dev/wp-json/wp/v2/form-process`
+- **Content-Type:** `application/json`
+- **Payload Structure:**
+```json
+{
+  "email": "user@example.com",
+  "phone": "+420123456789",
+  "name": "John Doe",
+  "institution": "ACME University",
+  "position": "Lab Manager",
+  "comment": "Additional message",
+  "wishlist": [
+    {
+      "name": "Vaporisation",
+      "slug": "vaporisation",
+      "technologySection": "vaporisation"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "document.pdf",
+      "base64": "data:application/pdf;base64,JVBERi0xLjcKJc..."
+    }
+  ]
+}
+```
+
+**File Handling:**
+- Multiple file selection supported
+- Files converted to base64 format
+- File names preserved in attachment objects
+- File size validation on both individual and total size
+- Real-time file list display with selected file names
+
+**User Experience:**
+- Loading state during submission ("Sending...")
+- Success feedback with auto-reset after 3 seconds
+- Error handling with user-friendly messages
+- Form validation with inline error messages
+- Responsive design for mobile and desktop
+
+**Integration Flow:**
+1. User clicks "Send wish list" button in `App.tsx`
+2. Dialog opens with `SendWishlistForm` component
+3. `wishlist` prop passed from `useWishlist()` hook
+4. User fills form and optionally adds attachments
+5. Form validates and submits to backend API
+6. Success/error feedback displayed
+7. Form auto-resets on successful submission
+
+**State Management:**
+- Form state managed with `react-hook-form` + `zod`
+- Loading state: `isSubmitting` boolean
+- Status tracking: `submitStatus` ("idle" | "success" | "error")
+- File state: `fileNames` array for display
+
 ### Data Structure Requirements
 
-- **Technology:** id, tag, slug, name, description, image, section
+- **Technology:** name, slug, technologySection, image, modalContent
 - **UseCase:** id, title, description, images[], htmlContent, technologies[], order
-- **Form Data:** Contact information + selected technology tags
+- **Form Data:** Contact information + selected technologies + attachments
+- **Wishlist:** Array of Technology objects from context
+- **Attachments:** Array of base64-encoded files with metadata
 
 ## Scope
 

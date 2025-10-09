@@ -62,14 +62,15 @@ export function Widget({
   const leftSideSections = ["Desorption", "BackFlow vacuum pump", "Permeation", "Diffusion"];
 
   return (
-    <div {...props} className={clsx(props.className, "grid grid-cols-[1fr_auto_1fr] gap-8")}>
-      <div className="flex min-h-[200px] items-start justify-end">
+    <div {...props} className={clsx(props.className, "grid w-full grid-cols-[1fr_auto_1fr] gap-8")}>
+      <div className="flex min-h-[200px] w-full max-w-md items-start justify-end">
         <TechnologyMenu
           activeSection={activeSection}
           sectionNames={leftSideSections}
           technologies={technologies}
           isInWishlist={isInWishlist}
           onTechnologyClick={onTechnologyClick}
+          className="w-full"
         />
       </div>
       <div {...props} className="relative aspect-square size-[648px]">
@@ -248,13 +249,14 @@ export function Widget({
           />
         </div>
       </div>
-      <div className="flex min-h-[200px] items-start justify-start">
+      <div className="flex min-h-[200px] w-full max-w-md items-start justify-start">
         <TechnologyMenu
           activeSection={activeSection}
           sectionNames={rightSideSections}
           technologies={technologies}
           isInWishlist={isInWishlist}
           onTechnologyClick={onTechnologyClick}
+          className="w-full"
         />
       </div>
     </div>
@@ -267,7 +269,7 @@ function TileLabel(props: React.ComponentProps<"span"> & { isHovered?: boolean }
     <span
       {...spanProps}
       className={clsx(
-        "pointer-events-none text-lg font-bold transition-colors duration-200",
+        "pointer-events-none text-lg font-bold",
         isHovered ? "text-white" : "text-current",
         spanProps.className
       )}
