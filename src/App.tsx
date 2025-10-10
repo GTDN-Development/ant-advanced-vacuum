@@ -346,7 +346,7 @@ function AppContent() {
               />
 
               {selectedUseCase.technologies.length !== 0 && (
-                <div className="mt-12">
+                <div className="mt-14">
                   <Heading as="h5" className="text-sm">
                     Used technology:
                   </Heading>
